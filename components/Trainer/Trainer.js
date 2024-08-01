@@ -2,20 +2,22 @@ import { useState } from "react";
 import * as styles from "./Trainer.styles";
 
 export default function Trainer(set, moveVocableUp) {
-  if (!set) return <div>Loading...</div>;
   const [question, setQuestion] = useState(true);
   const [message, setMessage] = useState("");
   const [index, setIndex] = useState(0);
+
+  if (!set) return <div>Loading...</div>;
 
   function isAnswerCorrect(input) {
     const answer = input;
     if (answer === set.vocables[index].vocable) {
       return true;
     }
-    const answerWithoutSpace = answer.split(" ").join("");
-    if (answerWithoutSpace === set.vocables[index].vocable) {
-      return true;
-    }
+    // TODO so dass nur die leerzeichen vorne und hinten weggenommen werden
+    // const answerWithoutSpace = answer.split(" ").join("");
+    // if (answerWithoutSpace === set.vocables[index].vocable) {
+    //   return true;
+    // }
     return false;
   }
 
@@ -29,12 +31,12 @@ export default function Trainer(set, moveVocableUp) {
       moveVocableUp(currentVocable);
     }
   }
-
-  function goToNextVocable() {
-    setQuestion(true);
-    const oldIndex = [...index];
-    setIndex(oldIndex + 1);
-  }
+  // random Reihenfolge der Sets of the Day
+  // function goToNextVocable() {
+  //   setQuestion(true);
+  //   const oldIndex = [...index];
+  //   setIndex(oldIndex + 1);
+  // }
 
   return (
     <styles.TrainerWrapper>
@@ -47,7 +49,7 @@ export default function Trainer(set, moveVocableUp) {
         <styles.VocableCard>{set.vocables[index].vocable}</styles.VocableCard>
       )}
       <styles.TrainerForm>
-        <AnswerField name="answer" />
+        <styles.AnswerField name="answer" />
         <styles.CheckButton onSubmit={handleSubmit}>
           Check my answer
         </styles.CheckButton>
